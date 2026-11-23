@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#64748b"/></linearGradient></defs>
+<rect width="600" height="600" fill="url(#g)"/>
+<circle cx="520" cy="80" r="160" fill="#fff" opacity=".06"/><circle cx="60" cy="560" r="120" fill="#fff" opacity=".05"/>
+<rect x="215" y="120" width="170" height="300" rx="28" fill="#111827" stroke="#f1f5f9" stroke-width="6"/><rect x="230" y="145" width="140" height="240" rx="10" fill="#f1f5f9" opacity=".9"/><circle cx="300" cy="402" r="8" fill="#f1f5f9"/><circle cx="260" cy="175" r="14" fill="#111827" opacity=".6"/>
+<text x="300" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#fff" opacity=".75" letter-spacing="4">APPLE</text>
+<text x="300" y="528" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#fff">iPhone 15</text>
+</svg>

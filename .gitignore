@@ -1,0 +1,9 @@
+.env
+*.zip
+infra/.terraform/
+infra/*.tfstate*
+infra/terraform.tfvars
+images/sellers/*
+images/customers/*
+!images/sellers/.gitkeep
+!images/customers/.gitkeep

@@ -1,0 +1,7 @@
+# Copy to terraform.tfvars and fill in
+github_repo        = "your-github-username/shopnest"
+alert_email        = "you@example.com"
+domain_name        = ""            # e.g. "shop.example.com" (optional, enables HTTPS)
+monthly_budget_usd = 40
+db_multi_az        = false
+protect_data       = true          # set false before destroying a demo

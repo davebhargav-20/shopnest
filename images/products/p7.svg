@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f1d1d"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+<rect width="600" height="600" fill="url(#g)"/>
+<circle cx="520" cy="80" r="160" fill="#fff" opacity=".06"/><circle cx="60" cy="560" r="120" fill="#fff" opacity=".05"/>
+<path d="M190 300 v-40 a110 110 0 0 1 220 0 v40" fill="none" stroke="#fecaca" stroke-width="22" stroke-linecap="round"/><rect x="160" y="280" width="62" height="110" rx="26" fill="#fecaca"/><rect x="378" y="280" width="62" height="110" rx="26" fill="#fecaca"/>
+<text x="300" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#fff" opacity=".75" letter-spacing="4">BOAT</text>
+<text x="300" y="528" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#fff">Rockerz</text>
+</svg>

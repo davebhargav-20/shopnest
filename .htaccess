@@ -1,0 +1,5 @@
+# XAMPP / Apache: never serve the SQL dump, docs or dot-files
+<FilesMatch "(\.sql|\.md|\.env.*|\.git.*|\.tf.*|\.yml)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

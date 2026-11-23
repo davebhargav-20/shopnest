@@ -1,0 +1,160 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shopnest-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: shopnest
+
+jobs:
+  # 1. Static checks: PHP syntax, leaked secrets, Terraform
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mysqli
+      - name: PHP syntax check
+        run: find . -name '*.php' -not -path './infra/*' -print0 | xargs -0 -n1 php -l
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: hashicorp/setup-terraform@v3
+      - name: Terraform format + validate
+        run: |
+          terraform -chdir=infra fmt -check -recursive || echo "::warning::Run terraform fmt in infra/"
+          terraform -chdir=infra init -backend=false -input=false
+          terraform -chdir=infra validate
+
+  # 2. Functional tests against a real database
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-retries=10
+    env:
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: ecomdb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mysqli, gd
+      - name: Load schema and sample data
+        run: mysql -h 127.0.0.1 -uroot -proot < ecomdb.sql
+      - name: Start PHP server
+        run: |
+          php -S 127.0.0.1:8080 -t . > /tmp/php.log 2>&1 &
+          sleep 2
+          curl -fsS http://127.0.0.1:8080/health.php
+      - name: End-to-end tests (customer, seller, admin)
+        run: BASE_URL=http://127.0.0.1:8080 python3 tests/e2e.py
+      - name: PHP server log
+        if: always()
+        run: grep -iE "warning|fatal|error" /tmp/php.log || echo "No PHP errors"
+
+  # 3. Build the Docker image, scan it, push it to Amazon ECR (main branch only)
+  build:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build image
+        run: |
+          docker build --build-arg APP_VERSION=${{ steps.meta.outputs.tag }} \
+            -t ${{ steps.ecr.outputs.registry }}/$ECR_REPOSITORY:${{ steps.meta.outputs.tag }} \
+            -t ${{ steps.ecr.outputs.registry }}/$ECR_REPOSITORY:latest .
+      - name: Vulnerability scan (fail on CRITICAL)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.meta.outputs.tag }}
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+      - name: Push image
+        run: docker push --all-tags ${{ steps.ecr.outputs.registry }}/$ECR_REPOSITORY
+
+  # 4. Deploy to the EC2 server through AWS Systems Manager, then smoke-test the live site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Run deploy.sh on the server (auto-rollback on failed health check)
+        run: |
+          CMD_ID=$(aws ssm send-command \
+            --instance-ids "${{ vars.EC2_INSTANCE_ID }}" \
+            --document-name AWS-RunShellScript \
+            --comment "ShopNest deploy ${{ needs.build.outputs.image_tag }}" \
+            --parameters 'commands=["/opt/shopnest/deploy.sh ${{ needs.build.outputs.image_tag }}"]' \
+            --query Command.CommandId --output text)
+          echo "SSM command: $CMD_ID"
+          for i in $(seq 1 60); do
+            sleep 10
+            STATUS=$(aws ssm get-command-invocation --command-id "$CMD_ID" \
+              --instance-id "${{ vars.EC2_INSTANCE_ID }}" --query Status --output text 2>/dev/null || echo Pending)
+            echo "Status: $STATUS"
+            case "$STATUS" in Pending|InProgress|Delayed) continue ;; esac
+            break
+          done
+          aws ssm get-command-invocation --command-id "$CMD_ID" --instance-id "${{ vars.EC2_INSTANCE_ID }}" \
+            --query '[StandardOutputContent,StandardErrorContent]' --output text
+          [ "$STATUS" = "Success" ]
+      - name: Smoke test live site
+        run: |
+          for i in $(seq 1 10); do
+            if curl -fsS "${{ vars.SITE_URL }}/health.php" | grep -q '"status":"ok"'; then
+              curl -fsS "${{ vars.SITE_URL }}/" | grep -q "ShopNest" && echo "Live site OK" && exit 0
+            fi
+            sleep 6
+          done
+          echo "Live site did not pass the smoke test" && exit 1

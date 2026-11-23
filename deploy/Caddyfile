@@ -1,0 +1,10 @@
+# SITE_ADDRESS = ":80" (plain HTTP on the Elastic IP)
+#             or "shop.example.com" (Caddy gets a free Let's Encrypt certificate and redirects HTTP to HTTPS)
+{$SITE_ADDRESS::80} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	reverse_proxy app:80
+}

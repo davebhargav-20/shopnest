@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#082f49"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
+<rect width="600" height="600" fill="url(#g)"/>
+<circle cx="520" cy="80" r="160" fill="#fff" opacity=".06"/><circle cx="60" cy="560" r="120" fill="#fff" opacity=".05"/>
+<rect x="170" y="200" width="260" height="150" rx="70" fill="#bae6fd"/><circle cx="245" cy="275" r="42" fill="#082f49"/><circle cx="355" cy="275" r="42" fill="#082f49"/><circle cx="245" cy="275" r="16" fill="#bae6fd"/><circle cx="355" cy="275" r="16" fill="#bae6fd"/>
+<text x="300" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#fff" opacity=".75" letter-spacing="4">JBL</text>
+<text x="300" y="528" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#fff">Bluetooth Speaker</text>
+</svg>

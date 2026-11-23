@@ -1,0 +1,9 @@
+.git
+.github
+infra
+tests
+*.zip
+.env
+.env.*
+**/.terraform
+**/*.tfstate*

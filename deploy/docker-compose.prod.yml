@@ -1,0 +1,49 @@
+# Production on the EC2 instance (/opt/shopnest). The database is Amazon RDS.
+# Values come from /opt/shopnest/.env, written at boot from SSM Parameter Store.
+services:
+  app:
+    image: ${ECR_IMAGE}:${APP_TAG}
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: "3306"
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_SSL: "1"
+      APP_VERSION: ${APP_TAG}
+    volumes:
+      - /opt/shopnest/uploads:/var/www/html/images
+    expose:
+      - "80"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION}
+        awslogs-group: /shopnest/app
+        awslogs-stream: app
+
+  proxy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS}
+    volumes:
+      - /opt/shopnest/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION}
+        awslogs-group: /shopnest/proxy
+        awslogs-stream: proxy
+
+volumes:
+  caddy_data:
+  caddy_config:

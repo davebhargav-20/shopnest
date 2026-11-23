@@ -1,0 +1,35 @@
+# Local development: app + database on your own machine
+#   docker compose up --build      →  http://localhost:8080
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: ecomdb
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./ecomdb.sql:/docker-entrypoint-initdb.d/01-ecomdb.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      retries: 10
+
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: rootpass
+      DB_NAME: ecomdb
+      DB_AUTO_IMPORT: "0"     # the db service imports ecomdb.sql itself
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads:/var/www/html/images
+
+volumes:
+  dbdata:
+  uploads:
