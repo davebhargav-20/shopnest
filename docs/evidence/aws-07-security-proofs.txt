@@ -1,0 +1,23 @@
+== From the internet (this PC):
+  web 80               OPEN
+  web 443              closed/unreachable
+  web 22 SSH           closed/unreachable
+  web 3306             closed/unreachable
+  RDS endpoint 3306    closed/unreachable
+== From the server (SSM): TLS enforcement on RDS
+ERROR 3159 (HY000): Connections using insecure transport are prohibited while --require_secure_transport=ON.
+--- with TLS + RDS CA:
+connected over TLS	8.4.11
+Ssl_cipher	TLS_AES_256_GCM_SHA384
+tbladmin	1
+tblcategory	6
+tblcustomer	4
+tblenquiry	1
+tblorderitems	6
+tblorders	4
+tblpage	2
+tblproduct	18
+tblreview	2
+tblseller	3
+tblwishlist	3
+  [status: Success]

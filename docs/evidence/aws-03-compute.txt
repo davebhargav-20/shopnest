@@ -1,0 +1,2 @@
+launched i-08fcd02f43c346252
+Elastic IP 52.23.26.212 associated; site: http://52.23.26.212/

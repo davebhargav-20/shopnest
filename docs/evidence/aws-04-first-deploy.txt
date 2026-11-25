@@ -1,0 +1,10 @@
+2026-11-25T17:58:34Z BUILD 1e6e07449b44 (CI passed)
+2026-11-25T17:59:13Z DEPLOYED 1e6e07449b44 (smoke test passed)
+shopnest-proxy-1 Up 4 minutes
+shopnest-app-1 Up 4 minutes (healthy)
+               total        used        free      shared  buff/cache   available
+Mem:             913         287          88           3         537         473
+/dev/nvme0n1p1   20G  4.8G   16G  24% /
+Created symlink /etc/systemd/system/timers.target.wants/shopnest-deploy.timer → /etc/systemd/system/shopnest-deploy.timer.
+BOOTSTRAP_DONE
+  [status: Success]

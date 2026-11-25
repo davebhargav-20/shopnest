@@ -1,0 +1,7 @@
+Backup 2026-11-25-1805 uploaded to s3://shopnest-backups-891377286919-use1
+total 40
+drwxrwxr-x. 5   33 tape    91 Nov 25 17:54 .
+drwxr-xr-x. 4 root root 16384 Nov 25 17:59 ..
+-rw-rw-r--. 1   33 tape    37 Nov 25 17:54 .htaccess
+drwxrwxr-x. 2   33 tape    22 Nov 25 17:54 customers
+  [status: Success]

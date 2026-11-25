@@ -1,0 +1,16 @@
+SSH (22) rule removed from shopnest-web
+alarm shopnest-ec2-cpu-high
+alarm shopnest-ec2-status-check-failed
+alarm shopnest-rds-cpu-high
+alarm shopnest-rds-storage-low
+alarm shopnest-rds-connections-high
+KeepAliveUntil=2026-12-02 set on EC2 and RDS
+lambda created (DRY_RUN=true)
+EventBridge rule shopnest-autostop-nightly -> lambda (cron 18:30 UTC)
+DRY-RUN invoke result:
+START RequestId: 2cdd537d-bc3d-4b32-92a6-9d3876addcdf Version: $LATEST
+EC2 i-08fcd02f43c346252: protected by KeepAliveUntil
+RDS shopnest-db: protected by KeepAliveUntil
+END RequestId: 2cdd537d-bc3d-4b32-92a6-9d3876addcdf
+REPORT RequestId: 2cdd537d-bc3d-4b32-92a6-9d3876addcdf	Duration: 2719.74 ms	Billed Duration: 3039 ms	Memory Size: 256 MB	Max Memory Used: 109 MB	Init Duration: 318.99 ms	
+
