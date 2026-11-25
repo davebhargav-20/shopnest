@@ -97,6 +97,9 @@ jobs:
           severity: CRITICAL
           ignore-unfixed: true
           exit-code: "1"
+        env:
+          TRIVY_DB_REPOSITORY: mirror.gcr.io/aquasec/trivy-db:2
+          TRIVY_JAVA_DB_REPOSITORY: mirror.gcr.io/aquasec/trivy-java-db:1
       - name: Container smoke test (starts, healthy, runs as www-data)
         run: |
           docker network create ci
