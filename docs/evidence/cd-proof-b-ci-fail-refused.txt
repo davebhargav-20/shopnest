@@ -1,0 +1,8 @@
+2026-11-25T17:58:34Z BUILD 1e6e07449b44 (CI passed)
+2026-11-25T17:59:13Z DEPLOYED 1e6e07449b44 (smoke test passed)
+2026-11-25T18:08:01Z SKIP aa34984d808c: CI state is 'in_progress:None' (not deploying)
+2026-11-25T18:10:01Z BUILD aa34984d808c (CI passed)
+2026-11-25T18:10:10Z DEPLOYED aa34984d808c (smoke test passed)
+2026-11-25T18:12:01Z SKIP 0aeeb7349ae4: CI state is 'completed:failure' (not deploying)
+
+{"status":"ok","db":"up","version":"aa34984d808c","time":"2026-11-25T18:14:04+00:00"}  [status: Success]
