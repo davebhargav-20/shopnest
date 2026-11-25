@@ -90,16 +90,9 @@ jobs:
           failure-threshold: error
       - name: Build image
         run: docker build --build-arg APP_VERSION=${GITHUB_SHA::12} -t shopnest:ci .
-      - name: Vulnerability scan (fail on CRITICAL)
-        uses: aquasecurity/trivy-action@v0.33.1
-        with:
-          image-ref: shopnest:ci
-          severity: CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
-        env:
-          TRIVY_DB_REPOSITORY: mirror.gcr.io/aquasec/trivy-db:2
-          TRIVY_JAVA_DB_REPOSITORY: mirror.gcr.io/aquasec/trivy-java-db:1
+      - name: Vulnerability scan with Trivy 0.76.2 (fail on CRITICAL)
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock             -e TRIVY_DB_REPOSITORY=mirror.gcr.io/aquasec/trivy-db:2             aquasec/trivy:0.76.2 image --severity CRITICAL --ignore-unfixed --scanners vuln --exit-code 1 shopnest:ci
       - name: Container smoke test (starts, healthy, runs as www-data)
         run: |
           docker network create ci
