@@ -141,3 +141,12 @@ Database settings now come from environment variables (`DB_HOST`, `DB_USER`, `DB
 6. After grading: set `protect_data = false`, `terraform apply`, `terraform destroy`.
 
 Estimated cost of the starter setup: about **$31 a month** (≈ ₹2,770 + GST); new AWS accounts get up to $200 in Free Tier credits.
+
+## Cloud deployment (AWS)
+
+- **Live site:** http://52.23.26.212/ (HTTP only; demo accounts) - health: `/health.php`. Needs the AWS Learner Lab EC2 + RDS to be running.
+- Everything about the AWS deployment is in [`docs/`](docs/): `AUDIT.md`, `PLAN.md`, `CICD.md`, `SECURITY.md`, `BACKUP_AND_DR.md`, `TESTING.md`, `COSTING.md`, `RUNBOOK.md`, `DEMO_GUIDE.md`.
+- Reports: `docs/ShopNest_Cloud_Report.pdf` and `docs/ShopNest_SLA.pdf`.
+- Infrastructure scripts for the Learner Lab: `infra/learnerlab/` (the Terraform in `infra/*.tf` targets a normal AWS account and was **not** applied).
+- CI/CD is pull-based (the server deploys a commit only after CI passed for it, with automatic rollback): see `docs/CICD.md`.
+- Correction to the sections above: the AWS region is **us-east-1**, not ap-south-1, and the ECR/OIDC pipeline was replaced.

@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset='utf-8'><title>ShopNest SLA</title><style>
+@page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10.5pt; line-height: 1.45; color: #1d2433; }
+h1 { font-size: 20pt; color: #17325f; border-bottom: 2px solid #3b6fd4; padding-bottom: 4px; margin-top: 0; page-break-before: always; }
+h1.first { page-break-before: avoid; }
+h2 { font-size: 13.5pt; color: #24457f; margin-bottom: 4px; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 12px; font-size: 9.2pt; }
+th { background: #17325f; color: #fff; text-align: left; padding: 4px 6px; }
+td { border: 1px solid #c9d2e3; padding: 4px 6px; vertical-align: top; }
+tr { page-break-inside: avoid; }
+figure { margin: 8px 0 10px; text-align: center; page-break-inside: avoid; }
+figure img { border: 1px solid #b8c2d6; }
+figcaption { font-size: 8.8pt; color: #333; text-align: left; margin: 3px 14mm 0 14mm; }
+.tag { font-size: 8pt; padding: 1px 6px; border-radius: 9px; color: #fff; white-space: nowrap; }
+.v { background: #2f9e57; } .i { background: #d98a1a; } .d { background: #6b7a99; } .n { background: #c0392b; }
+.cover { text-align: center; padding-top: 55mm; }
+.cover h1 { border: none; font-size: 30pt; page-break-before: avoid; }
+.note { background: #fff7e0; border-left: 4px solid #d98a1a; padding: 6px 10px; margin: 8px 0; font-size: 9.6pt; }
+code { background: #eef1f7; padding: 0 3px; font-size: 9pt; }
+</style></head><body>
+<h1 class="first" style="font-size:18pt">ShopNest on AWS: Service Level Agreement (SLA)</h1>
+<p style="font-size:9pt">[STUDENT NAME(S)] &nbsp;|&nbsp; [ENROLLMENT NO.(S)] &nbsp;|&nbsp; [COURSE CODE] &nbsp;|&nbsp; [UNIVERSITY] &nbsp;|&nbsp; 26 November 2026 &nbsp;|&nbsp; Region us-east-1 &nbsp;|&nbsp; http://52.23.26.212/</p>
+<h2>1. What is an SLA?</h2>
+<p>An SLA says how available a service should be, how fast it recovers, and what is excluded. AWS has its own SLAs for its services; ShopNest sets simpler targets on top of them for a class-project demo.</p>
+<h2>2. What AWS promises (AWS documentation, not re-verified here)</h2>
+<table><thead><tr><th>Service</th><th>AWS commitment</th><th>Remedy</th></tr></thead><tbody><tr><td>EC2 single instance</td><td>99.5 % monthly</td><td>service credits</td></tr><tr><td>EC2 region-level</td><td>99.99 %</td><td>service credits</td></tr><tr><td>RDS single-AZ</td><td>99.5 %</td><td>service credits</td></tr><tr><td>RDS Multi-AZ (not used)</td><td>99.95 %</td><td>service credits</td></tr><tr><td>Lambda</td><td>99.95 %</td><td>service credits</td></tr></tbody></table>
+<p style="font-size:9pt">Credits are not available in the AWS Academy Learner Lab.</p>
+<h2>3. ShopNest targets and measured results</h2>
+<table><thead><tr><th>Item</th><th>Target</th><th>Measured (26 Nov 2026)</th><th>Status</th></tr></thead><tbody><tr><td>Availability in demo/exam hours</td><td>99 % (about 7.3 h/month, 36 s per hour of downtime)</td><td><b>no long-term data yet</b></td><td><span class="tag n">Not done</span></td></tr><tr><td>New server serving traffic after launch</td><td>under 10 minutes</td><td>about 6 minutes (launch 17:57 UTC, healthy by 18:02 UTC)</td><td><span class="tag v">Verified</span></td></tr><tr><td>Bad release recovery (rollback)</td><td>under 5 minutes</td><td>about 2 minutes detection + 7 seconds rollback</td><td><span class="tag v">Verified</span></td></tr><tr><td>Database restore time (RTO)</td><td>under 15 minutes</td><td>7.3 minutes (snapshot to available)</td><td><span class="tag v">Verified</span></td></tr><tr><td>Data loss (RPO)</td><td>point-in-time about 5 min; nightly dump 24 h</td><td>not measured (AWS documentation)</td><td><span class="tag d">Designed only</span></td></tr><tr><td>Load capacity</td><td>50 simultaneous visitors</td><td>inconclusive test; 231 req/s at 50 users on the home page, 0 failures</td><td><span class="tag i">Implemented, not tested</span></td></tr></tbody></table>
+<h2>4. How the targets are met</h2>
+<table><thead><tr><th>Mechanism</th><th>Purpose</th></tr></thead><tbody><tr><td>Container restart policy, health check</td><td>recover from application crashes</td></tr><tr><td>Automatic rollback in the deploy script</td><td>bad release recovery (verified)</td></tr><tr><td>RDS automated backups + manual snapshot + S3 dumps + PC copy</td><td>data protection and restore</td></tr><tr><td>CloudWatch alarms to SNS</td><td>detection (no e-mail subscribed yet, so not yet effective)</td></tr><tr><td>Elastic IP + SSM + scripted re-creation</td><td>fast rebuild of the server</td></tr><tr><td>Nightly auto-stop unless <code>KeepAliveUntil</code></td><td>cost control; demo protected until 2 Dec 2026</td></tr></tbody></table>
+<h2>5. Exclusions</h2>
+<p>AWS Academy lab expiry or reset; AWS regional outage; the user's own network; resources stopped by the auto-stop after the <code>KeepAliveUntil</code> date; planned maintenance and demos with deploys frozen; misuse of tags or credentials; HTTP-only transport (no encryption in transit between browser and site).</p>
+<p style="font-size:9pt"><b>Honesty note:</b> no uptime percentage is claimed. Availability has not been measured over time, because the system had run for only hours at the time of writing.</p>
+</body></html>
