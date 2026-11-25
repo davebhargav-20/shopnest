@@ -1,0 +1,69 @@
+PASS guest add to cart
+PASS checkout requires login
+PASS wrong password rejected
+PASS customer login -> next=checkout, got http://localhost:8080/checkout.php
+PASS cart kept after login
+PASS place order
+PASS order details visible
+PASS customer cancel order
+PASS page customer/dashboard.php
+PASS page customer/my-orders.php
+PASS page customer/wishlist.php
+PASS page customer/profile.php
+PASS page customer/change-password.php
+PASS wishlist add
+PASS review button for delivered item
+PASS review update
+PASS cannot view another customer order
+PASS customer blocked from admin -> http://localhost:8080/customer/dashboard.php
+PASS profile update
+PASS change password
+PASS contact form
+PASS customer signup
+PASS out of stock blocked
+PASS qty capped to stock
+PASS online order placed (3 x formal shoes)
+PASS pending seller blocked
+PASS seller login
+PASS page seller/manage-products.php
+PASS page seller/add-product.php
+PASS page seller/orders.php
+PASS page seller/orders.php?status=Pending
+PASS page seller/sales-report.php
+PASS page seller/seller-profile.php
+PASS page seller/edit-product.php?id=10
+PASS page seller/change-password.php
+PASS seller sees new order
+PASS seller set Confirmed
+PASS seller set Shipped
+PASS seller set Delivered
+PASS seller cannot open other seller order
+PASS seller cannot edit other seller product
+PASS price>MRP validation
+PASS admin login
+PASS page admin/manage-categories.php
+PASS page admin/manage-products.php
+PASS page admin/all-orders.php
+PASS page admin/all-orders.php?status=Delivered
+PASS page admin/between-dates-reports.php?from=2026-01-01&to=2026-12-31
+PASS page admin/manage-sellers.php
+PASS page admin/view-seller.php?id=1
+PASS page admin/registered-customers.php
+PASS page admin/view-customer.php?id=1
+PASS page admin/enquiries.php
+PASS page admin/about-us.php
+PASS page admin/contact-us.php
+PASS page admin/admin-profile.php
+PASS page admin/change-password.php
+PASS page admin/order-details.php?id=1
+PASS approve seller
+PASS add category
+PASS protect category with products
+PASS toggle product
+PASS inactive product hidden
+PASS admin update item
+PASS enquiry read
+PASS report
+PASS approved seller login
+PASS csrf rejected
+FAILS 0

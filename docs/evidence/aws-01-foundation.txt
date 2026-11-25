@@ -1,0 +1,9 @@
+RDS status: stopped
+RDS start requested
+bucket created
+bucket hardened
+SNS topic: arn:aws:sns:us-east-1:891377286919:shopnest-alerts
+log group /shopnest/app created
+log group /shopnest/proxy created
+log group /shopnest/deploy created
+SSM parameter created

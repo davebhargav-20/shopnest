@@ -1,0 +1,9 @@
+image size: 816MB
+health=healthy restart=no
+USER     COMMAND
+root     apache2
+root     head
+root     ps
+root     sh
+no infra/tests/deploy/.git/.env in image
+1
