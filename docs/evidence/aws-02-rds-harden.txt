@@ -1,0 +1,13 @@
+waiting for RDS... starting
+waiting for RDS... starting
+waiting for RDS... starting
+waiting for RDS... starting
+waiting for RDS... configuring-enhanced-monitoring
+waiting for RDS... configuring-enhanced-monitoring
+waiting for RDS... configuring-enhanced-monitoring
+RDS available, engine 8.4.11
+parameter group created
+modify requested (password, param group, deletion protection)
+log exports requested
+reboot requested to apply parameter group
+final: status=available public=False enc=True delprot=True pg=shopnest-mysql84/in-sync backup=7d logs=['error', 'slowquery']
