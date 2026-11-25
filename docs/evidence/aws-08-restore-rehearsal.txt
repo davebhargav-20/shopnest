@@ -1,0 +1,12 @@
+temporary instance already exists, resuming
+restore started
+restored instance available after 7.3 min: shopnest-restore-test.clgks2ekihdf.us-east-1.rds.amazonaws.com
+ /var/lib/amazon/ssm/i-08fcd02f43c346252/document/orchestration/1027b4de-5dd9-4b6b-822d-e2a96b50089c/awsrunShellScript/0.awsrunShellScript/_script.sh: line 1: syntax error near unexpected token `('
+/var/lib/amazon/ssm/i-08fcd02f43c346252/document/orchestration/1027b4de-5dd9-4b6b-822d-e2a96b50089c/awsrunShellScript/0.awsrunShellScript/_script.sh: line 1: `cd /opt/shopnest; set -a; . ./.env; set +a; export MYSQL_PWD=$DB_PASS; S='--ssl --ssl-ca=/etc/ssl/certs/rds-global-bundle.pem'; for H in $DB_HOST shopnest-restore-test.clgks2ekihdf.us-east-1.rds.amazonaws.com; do echo "== $H"; for t in $(docker exec -e MYSQL_PWD shopnest-app-1 mysql $S -h $H -u admin -N -e "select table_name from information_schema.tables where table_schema='ecomdb' order by 1"); do echo "$t $(docker exec -e MYSQL_PWD shopnest-app-1 mysql $S -h $H -u admin -N -e \"select count(*) from ecomdb.$t\")"; done; done'
+failed to run commands: exit status 2 [status: Failed]
+
+Traceback (most recent call last):
+  File "C:\xampp\htdocs\shopnest-aws\infra\learnerlab\05_restore_rehearsal.py", line 39, in <module>
+    log(f"ROW COUNTS MATCH: {counts[0] == counts[1]}  ({len(counts[0])} tables)")
+                                          ~~~~~~^^^
+IndexError: list index out of range

@@ -7,7 +7,7 @@ iid = ec2.describe_instances(Filters=[{"Name": "tag:Name", "Values": ["shopnest-
       {"Name": "instance-state-name", "Values": ["running"]}])["Reservations"][0]["Instances"][0]["InstanceId"]
 cid = ssm.send_command(InstanceIds=[iid], DocumentName="AWS-RunShellScript",
       Parameters={"commands": [sys.argv[1]]}, CloudWatchOutputConfig={"CloudWatchOutputEnabled": False})["Command"]["CommandId"]
-for _ in range(90):
+for _ in range(400):
     time.sleep(3)
     try:
         r = ssm.get_command_invocation(CommandId=cid, InstanceId=iid)

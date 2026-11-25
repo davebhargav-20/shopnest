@@ -1,0 +1,51 @@
+test stack ready; tables: 11
+c=50 url=/index.php | 231.15 req/s | failed=0 non2xx= | p50=203ms p95=327ms p99=441ms | avg CPU busy 44%
+c=50 url=/shop.php |  req/s | failed= non2xx= | p50=ms p95=ms p99=ms | avg CPU busy 25%
+c=50 url=/product-details.php?id=1 |  req/s | failed= non2xx= | p50=ms p95=ms p99=ms | avg CPU busy 2%
+c=100 url=/index.php | 49.49 req/s | failed=83 non2xx=83 | p50=229ms p95=10024ms p99=19637ms | avg CPU busy 7%
+c=100 url=/shop.php |  req/s | failed= non2xx= | p50=ms p95=ms p99=ms | avg CPU busy 27%
+c=100 url=/product-details.php?id=1 | 371.10 req/s | failed=0 non2xx= | p50=268ms p95=303ms p99=319ms | avg CPU busy 28%
+test stack removed; production health: {"status":"ok","db":"up","version":"73bf5b050340","time":"2026-11-25T18:37:36+00:00"}
+ Unable to find image 'mariadb:11' locally
+11: Pulling from library/mariadb
+8e8df94085bf: Pulling fs layer
+1a8c62f555e8: Pulling fs layer
+3b4cb71eac5f: Pulling fs layer
+b6e5f9191c13: Pulling fs layer
+14373d962eb2: Pulling fs layer
+376a883dbf3d: Pulling fs layer
+00c71c91d998: Pulling fs layer
+e548220743e0: Pulling fs layer
+b6e5f9191c13: Waiting
+14373d962eb2: Waiting
+376a883dbf3d: Waiting
+00c71c91d998: Waiting
+e548220743e0: Waiting
+1a8c62f555e8: Verifying Checksum
+1a8c62f555e8: Download complete
+3b4cb71eac5f: Verifying Checksum
+3b4cb71eac5f: Download complete
+b6e5f9191c13: Verifying Checksum
+b6e5f9191c13: Download complete
+14373d962eb2: Verifying Checksum
+14373d962eb2: Download complete
+00c71c91d998: Verifying Checksum
+00c71c91d998: Download complete
+e548220743e0: Verifying Checksum
+e548220743e0: Download complete
+8e8df94085bf: Verifying Checksum
+8e8df94085bf: Download complete
+376a883dbf3d: Verifying Checksum
+376a883dbf3d: Download complete
+8e8df94085bf: Pull complete
+1a8c62f555e8: Pull complete
+3b4cb71eac5f: Pull complete
+b6e5f9191c13: Pull complete
+14373d962eb2: Pull complete
+376a883dbf3d: Pull complete
+00c71c91d998: Pull complete
+e548220743e0: Pull complete
+Digest: sha256:e1d5495f445654134f226f55a41ce0da227116f6f27f283101f405c794d841fc
+Status: Downloaded newer image for mariadb:11
+ [status: Success]
+
